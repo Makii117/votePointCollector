@@ -63,13 +63,10 @@ try:
     #handle new iframe popup
     driver.switch_to_default_content()
     driver.switch_to_frame(driver.find_element_by_xpath("/html/body/div[5]/div[4]/iframe"))
-    playButton = driver.find_element_by_xpath("/html/body/div/div/div[3]/div/button")
-    time.sleep(1)
-    playButton.click()
     time.sleep(5)
-    busterButton = driver.find_element_by_xpath('//button[@id="solver-button"]')
+    busterButton = driver.find_element_by_xpath('/html/body/div/div/div[3]/div[2]/div[1]/div[1]/div[4]')
     busterButton.click()
-    time.sleep(5)
+    time.sleep(10)
     #leave captcha iframe
     driver.switch_to_default_content()
     loginButton = driver.find_element_by_xpath('//*[@id="frmLogin"]/div/button')

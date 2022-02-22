@@ -5,10 +5,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import time
 from fake_useragent import UserAgent
+from selenium.webdriver.common.proxy import Proxy, ProxyType
+
 
 
 #timeouts to emulate human delay because of bot detection
 #chromedriver for chrome version 98
+
+#TODO
+#   24hr sleep time, but since this script is inteded to be ran as a cronjob, dont know about that
+#   Add better automation flagging evasion, currently the script works for 1 account every 24 hours, still gotta make it more dynamic for it to support multiple accounts
 
 
 #initialize chromedriver and give it a useragent
@@ -28,27 +34,31 @@ options.add_argument("--window-size=1100,1000")
 #load buster captcha solver extension into the driver
 options.add_extension("./Buster.crx")
 
+#Proxy configuration in case of IP flagging 
+#TODO
+#   Add proxy rotation 
+#options.add_argument('--proxy-server=104.149.3.3:8080')
 
-driver = webdriver.Chrome(executable_path = path,chrome_options=options)
+driver = webdriver.Chrome(executable_path = path,options=options)
 
 url="https://www.warmane.com/account/login"
 
-username = ""
-password = ""
-
-
+#TODO:
+#   Use implicit waits to avoid errors caused by internet connection or slow page loading
+#   Convert entire script to class for prettier code and more capabilites
 
 try:
     #get login info from the file (in case of multiple accounts)
     with open('login.txt') as credentials:
-        lines = credentials.readlines()[1:]
+        #skip first two lines in the login text file
+        lines = credentials.readlines()[2:]
     for line in lines:    
         creds = line.split(",")  
         username = creds[0]
         password = creds[1].lstrip()  
-        
-        driver.get(url)
         time.sleep(1)
+        driver.get(url)
+        time.sleep(2)
         unameElement=driver.find_element_by_id("userID")
         passwordElement=driver.find_element_by_id("userPW")
         time.sleep(1)
@@ -81,6 +91,10 @@ try:
         loginButton = driver.find_element_by_xpath('//*[@id="frmLogin"]/div/button')
         loginButton.click()
         time.sleep(10)
+        collectLink = driver.find_element_by_xpath('/html/body/div[3]/div[5]/div/div[2]/div[1]/table/tbody/tr[4]/td/span[2]/a')
+        collectLink.click()
+        time.sleep(5)
+        driver.quit()
     credentials.close()      
     
 except KeyboardInterrupt:

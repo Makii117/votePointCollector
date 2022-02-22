@@ -7,7 +7,7 @@ import time
 from fake_useragent import UserAgent
 
 
-#timeouts to emulate human delay since recaptcha can detect bots
+#timeouts to emulate human delay because of bot detection
 #chromedriver for chrome version 98
 
 
@@ -39,11 +39,42 @@ username = ""
 password = ""
 
 try:
-     driver.get(url)
-    
-    
-    
-    
+    driver.get(url)
+    time.sleep(1)
+    unameElement=driver.find_element_by_id("userID")
+    passwordElement=driver.find_element_by_id("userPW")
+    time.sleep(1)
+    unameElement.click
+    time.sleep(2)
+    unameElement.send_keys(username)
+    time.sleep(2)
+    passwordElement.click()
+    time.sleep(2)
+    passwordElement.send_keys(password)
+    time.sleep(2)
+    #load captcha iframe
+    driver.switch_to_frame(driver.find_element_by_xpath("/html/body/div[3]/div[5]/div/div[2]/div[1]/form/table/tbody/tr[7]/td/div/div/div/iframe"))
+    #click captcha
+    time.sleep(2)
+    captchaClick=driver.find_element_by_xpath('/html/body/div[2]/div[3]/div[1]/div/div/span/div[1]')
+    time.sleep(1)
+    captchaClick.click()
+    time.sleep(random.randrange(3,6))
+    #handle new iframe popup
+    driver.switch_to_default_content()
+    driver.switch_to_frame(driver.find_element_by_xpath("/html/body/div[5]/div[4]/iframe"))
+    playButton = driver.find_element_by_xpath("/html/body/div/div/div[3]/div/button")
+    time.sleep(1)
+    playButton.click()
+    time.sleep(5)
+    busterButton = driver.find_element_by_xpath('//button[@id="solver-button"]')
+    busterButton.click()
+    time.sleep(5)
+    #leave captcha iframe
+    driver.switch_to_default_content()
+    loginButton = driver.find_element_by_xpath('//*[@id="frmLogin"]/div/button')
+    loginButton.click()
+      
     
 except KeyboardInterrupt:
     print("Keyboard Intterupt, Exiting")

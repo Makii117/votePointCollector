@@ -15,7 +15,7 @@ from selenium.webdriver.common.proxy import Proxy, ProxyType
 #TODO
 #   24hr sleep time, but since this script is inteded to be ran as a cronjob, dont know about that
 #   Add better automation flagging evasion, currently the script works for 1 account every 24 hours, still gotta make it more dynamic for it to support multiple accounts
-
+#   Add chrome version check and chromedriver automatic updates
 
 #initialize chromedriver and give it a useragent
 path = r'./chromedriver'
@@ -36,7 +36,7 @@ options.add_extension("./Buster.crx")
 
 #Proxy configuration in case of IP flagging 
 #TODO
-#   Add proxy rotation 
+#   Add proxy rotation and validation
 #options.add_argument('--proxy-server=104.149.3.3:8080')
 
 driver = webdriver.Chrome(executable_path = path,options=options)
@@ -46,6 +46,7 @@ url="https://www.warmane.com/account/login"
 #TODO:
 #   Use implicit waits to avoid errors caused by internet connection or slow page loading
 #   Convert entire script to class for prettier code and more capabilites
+#   Add captcha loaded check in case of bad user agent
 
 try:
     #get login info from the file (in case of multiple accounts)

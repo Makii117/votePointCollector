@@ -13,8 +13,9 @@ Captcha bypass using the buster extension for chrome (Made by dessant: https://g
 ---
 
 ### Requirements
-
-Python 3
-Selenium for python
-Fake user agent for python
-Assuming python is already installed, there is a batch script that installs the required modules.
+<ul>
+<li>Python 3</li>
+<li>Selenium for python</li>
+<li>Fake user agent for python.</li>
+<li>Assuming python is already installed, there is a batch script that installs the required modules.</li>
+</ul>
